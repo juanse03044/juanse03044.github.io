@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Event Creation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap'); body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-black text-white min-h-screen">
+
+    <header class="py-6 px-4 bg-gray-900 shadow-lg">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="{% url 'inicio' %}" class="text-3xl font-bold text-yellow-400">EVENT CREATION</a>
+            <div class="flex items-center gap-4">
+                <span class="text-gray-300 text-sm">{{ request.session.usuario_nombre }}</span>
+                <a href="{% url 'perfil' %}" class="text-gray-400 hover:text-yellow-400 text-sm transition">Perfil</a>
+                <a href="{% url 'logout' %}" class="text-gray-400 hover:text-yellow-400 text-sm transition">Cerrar sesión</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        {% if messages %}
+            {% for m in messages %}
+            <div class="mb-4 px-4 py-3 rounded-md text-sm
+                {% if 'error' in m.tags %}bg-red-900 text-red-300{% else %}bg-green-900 text-green-300{% endif %}">
+                {{ m }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold text-yellow-400">Gestión de Usuarios</h2>
+            <a href="{% url 'crear_usuario_admin' %}"
+                class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-5 rounded-md transition">
+                <i class="fas fa-plus mr-2"></i>Nuevo usuario
+            </a>
+        </div>
+
+        <div class="bg-gray-900 rounded-lg border border-gray-800 overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-gray-700">
+                        <th class="text-left px-5 py-4 text-yellow-400 font-semibold">Nombre</th>
+                        <th class="text-left px-5 py-4 text-yellow-400 font-semibold">Correo</th>
+                        <th class="text-left px-5 py-4 text-yellow-400 font-semibold">Rol</th>
+                        <th class="text-left px-5 py-4 text-yellow-400 font-semibold">Estado</th>
+                        <th class="text-left px-5 py-4 text-yellow-400 font-semibold">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in usuarios %}
+                    <tr class="border-b border-gray-800 hover:bg-gray-800 transition">
+                        <td class="px-5 py-4">{{ u.nombre }} {{ u.apellido }}</td>
+                        <td class="px-5 py-4 text-gray-300">{{ u.email }}</td>
+                        <td class="px-5 py-4">
+                            <span class="px-2 py-1 rounded-full text-xs
+                                {% if u.rol == 'admin' %}bg-yellow-500 text-black{% else %}bg-gray-700 text-gray-300{% endif %}">
+                                {{ u.rol }}
+                            </span>
+                        </td>
+                        <td class="px-5 py-4">
+                            <span class="px-2 py-1 rounded-full text-xs
+                                {% if u.estado == 'activo' %}bg-green-900 text-green-400{% else %}bg-red-900 text-red-400{% endif %}">
+                                {{ u.estado }}
+                            </span>
+                        </td>
+                        <td class="px-5 py-4">
+                            <div class="flex items-center gap-2">
+                                <a href="{% url 'editar_usuario_admin' u.pk %}"
+                                    class="text-yellow-400 hover:text-yellow-300 transition" title="Editar">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <a href="{% url 'toggle_estado_usuario' u.pk %}"
+                                    class="{% if u.estado == 'activo' %}text-orange-400 hover:text-orange-300{% else %}text-green-400 hover:text-green-300{% endif %} transition"
+                                    title="{% if u.estado == 'activo' %}Desactivar{% else %}Activar{% endif %}">
+                                    <i class="fas fa-{% if u.estado == 'activo' %}ban{% else %}check{% endif %}"></i>
+                                </a>
+                                <a href="{% url 'eliminar_usuario_admin' u.pk %}"
+                                    class="text-red-400 hover:text-red-300 transition" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-5 py-8 text-center text-gray-500">No hay usuarios registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Eventos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white">
+
+<header class="py-6 px-4 md:px-8 bg-gray-900 shadow-lg">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-yellow-400">REPORTES</h1>
+        <a href="{% url 'inicio' %}" 
+           class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full">
+           Volver
+        </a>
+    </div>
+</header>
+
+<section class="py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+
+        <h2 class="text-3xl font-bold text-yellow-400 mb-8 text-center">
+            Reporte de Eventos
+        </h2>
+
+        <!-- 🔍 FILTROS -->
+        <form method="get" class="bg-gray-900 p-4 rounded-lg mb-6 flex flex-wrap gap-4 justify-center">
+
+            <input type="text" name="titulo" placeholder="Título"
+                value="{{ request.GET.titulo }}"
+                class="px-3 py-2 rounded text-black">
+
+            <!-- 📅 Fecha exacta -->
+           <select name="fecha"
+    class="px-4 py-2 rounded-lg text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+
+    <option value=""> Seleccionar fecha</option>
+
+    {% for f in fechas %}
+        <option value="{{ f|date:'Y-m-d' }}"
+            {% if request.GET.fecha == f|date:'Y-m-d' %}selected{% endif %}>
+            
+            {{ f|date:"d/m/Y" }}
+            
+        </option>
+    {% empty %}
+        <option disabled>No hay fechas disponibles</option>
+    {% endfor %}
+
+</select>
+
+            <!-- 📍 Lugar -->
+            <select name="lugar" class="px-3 py-2 rounded text-black">
+                <option value="">Lugar</option>
+                {% for l in lugares %}
+                    <option value="{{ l }}" {% if request.GET.lugar == l %}selected{% endif %}>
+                        {{ l }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <!-- 🏷 Tipo -->
+            <select name="tipo" class="px-3 py-2 rounded text-black">
+                <option value="">Tipo</option>
+                {% for t in tipos %}
+                    <option value="{{ t.nombre }}" {% if request.GET.tipo == t.nombre %}selected{% endif %}>
+                        {{ t.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit"
+                class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 py-2 rounded">
+                Filtrar
+            </button>
+        </form>
+
+        <!-- 🔢 TOTAL -->
+        <h3 class="text-center text-lg mb-4">
+            Total de eventos: 
+            <span class="text-yellow-400 font-bold">{{ eventos|length }}</span>
+        </h3>
+
+        <!-- 📋 TABLA -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-gray-900 rounded-lg overflow-hidden">
+                
+                <thead class="bg-yellow-500 text-black">
+                    <tr>
+                        <th class="py-3 px-4 text-left">ID</th>
+                        <th class="py-3 px-4 text-left">Título</th>
+                        <th class="py-3 px-4 text-left">Fecha</th>
+                        <th class="py-3 px-4 text-left">Lugar</th>
+                        <th class="py-3 px-4 text-left">Tipo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for evento in eventos %}
+                    <tr class="border-b border-gray-800 hover:bg-gray-800 transition">
+                        <td class="py-3 px-4">{{ evento.id_evento }}</td>
+                        <td class="py-3 px-4">{{ evento.titulo }}</td>
+                        <td class="py-3 px-4">{{ evento.fecha }}</td>
+                        <td class="py-3 px-4">{{ evento.lugar }}</td>
+                        <td class="py-3 px-4">{{ evento.id_tipo.nombre }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-gray-400">
+                            No hay eventos registrados
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- 📥 EXPORTAR -->
+        <div class="flex justify-center gap-4 mt-8">
+            <a href="{% url 'exportar_excel' %}?{{ request.GET.urlencode }}" 
+               class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold">
+               Exportar Excel
+            </a>
+
+            <a href="{% url 'exportar_pdf' %}?{{ request.GET.urlencode }}" 
+               class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold">
+               Exportar PDF
+            </a>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Invitados</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background: #0f172a; }
+table { width: 100%; background: #111827; border-radius: 10px; overflow: hidden; }
+th { background: #1f2937; padding: 12px; }
+td { padding: 10px; border-top: 1px solid #374151; text-align: center; }
+</style>
+</head>
+
+<body class="text-white p-10">
+
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl text-yellow-400">INVITADOS</h1>
+
+    <div class="space-x-2">
+        <a href="{% url 'crearInvitado' %}" 
+           class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-bold hover:bg-yellow-300">
+            + Agregar
+        </a>
+
+        <a href="{% url 'inicio' %}" 
+           class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg">
+            Volver
+        </a>
+    </div>
+</div>
+
+<table>
+<thead>
+<tr>
+    <th>Evento</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Teléfono</th>
+    <th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for i in invitados %}
+<tr>
+    <td>{{ i.evento }}</td>
+    <td>{{ i.nombre }}</td>
+    <td>{{ i.apellido }}</td>
+    <td>{{ i.telefono }}</td>
+
+    <td class="space-x-2">
+        <a href="{% url 'editarInvitado' i.pk %}" 
+           class="bg-blue-500 px-3 py-1 rounded hover:bg-blue-400">
+            Editar
+        </a>
+
+        <a href="{% url 'eliminarInvitado' i.pk %}" 
+           class="bg-red-500 px-3 py-1 rounded hover:bg-red-400">
+            Eliminar
+        </a>
+    </td>
+</tr>
+
+{% empty %}
+<tr>
+    <td colspan="5" class="text-gray-400 p-4">
+        No hay invitados registrados
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+</body>
+</html>

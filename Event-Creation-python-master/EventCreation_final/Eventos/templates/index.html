@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/icono.jpeg">
+    <title>Event Creation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .animate-fadein {
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .celebrity-card:hover .celebrity-overlay {
+            opacity: 1;
+        }
+
+        .celebrity-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1a202c;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .button-section {
+            flex-direction: row;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .button-section {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white">
+
+    <header class="py-6 px-4 md:px-8 bg-gray-900 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <a href="index.html" class="text-3xl font-bold text-yellow-400 mb-4 md:mb-0">EVENT CREATION</a>
+            <div class="flex flex-wrap justify-center md:justify-end items-center space-x-2 md:space-x-4">
+                <a href="#about" class="text-gray-300 hover:text-yellow-400 transition-all duration-300">Sobre Nosotros</a>
+                <a href="#services" class="text-gray-300 hover:text-yellow-400 transition-all duration-300">Servicios</a>
+                <a href="#contact" class="text-gray-300 hover:text-yellow-400 transition-all duration-300">Contacto</a>
+                {% if request.session.usuario_id %}
+                <a href="{% url 'perfil' %}" class="text-gray-300 hover:text-yellow-400 transition-all duration-300">
+                    <i class="fas fa-user mr-1"></i>{{ request.session.usuario_nombre }}
+                </a>
+                <a href="{% url 'logout' %}"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105">
+                    Cerrar Sesión
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105">
+                    Iniciar Sesión
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="hero-section relative text-center">
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/dd89ef3f-57e4-4010-b56d-572afd758482.png"
+            alt="Gran evento con celebridades en un salón de lujo"
+            class="absolute inset-0 w-full h-full object-cover opacity-70" />
+
+        <div class="relative z-10 px-4 animate-fadein">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                <span class="text-yellow-400">EVENT</span> CREATION
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Creamos experiencias inolvidables conectando marcas
+                con celebridades de primer nivel</p>
+
+            <div class="flex flex-wrap justify-center gap-4 button-section">
+                <a href="#services"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-handshake mr-2"></i> Nuestros Servicios
+                </a>
+                <a href="#contact"
+                    class="border-2 border-yellow-500 hover:bg-yellow-500 hover:text-black text-yellow-500 font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-envelope mr-2"></i> Contacto
+                </a>
+                {% if not request.session.usuario_id %}
+                <a href="{% url 'login' %}"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-user-circle mr-2"></i> Iniciar Sesión
+                </a>
+                <a href="{% url 'registro' %}"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-user-plus mr-2"></i> Registrarse
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-0 right-0 text-center">
+            <a href="#about" class="text-yellow-400 animate-bounce inline-block">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </div>
+
+    <section class="py-12 px-4 bg-gray-900">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-yellow-400">HERRAMIENTAS DE GESTIÓN</h2>
+            <div class="flex flex-wrap justify-center gap-6">
+                {% if request.session.usuario_rol == 'admin' %}
+                <a href="{% url 'dashboard' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fas fa-users-cog text-4xl mb-3 text-yellow-400"></i>
+                    <span class="text-lg font-bold">
+
+                        Dashboard
+                    </span>
+                </a>
+                {% endif %}
+                {% if request.session.usuario_rol == 'admin' %}
+                <a href="{% url 'carga_masiva_general' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fas fa-users-cog text-4xl mb-3 text-yellow-400"></i>
+                    <span class="text-lg font-bold">
+
+                        Carga Masiva
+                    </span>
+                </a>
+                {% endif %}
+                {% if request.session.usuario_rol == 'admin' %}
+                <a href="{% url 'listaAdministradores' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fas fa-users-cog text-4xl mb-3 text-yellow-400"></i>
+                    <span class="text-lg font-bold">
+
+                        Administradores
+                    </span>
+                </a>
+                {% endif %}
+                <a href="{% url 'listaEventos' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fas fa-box text-4xl mb-3 text-yellow-400"></i>
+                    <span class="text-lg font-bold">Eventos</span>
+                </a>
+                <a href="{% url 'listaHorarios' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fas fa-clock text-4xl mb-3 text-yellow-400"></i>
+                    <span class="text-lg font-bold">Horarios</span>
+                </a>
+                <a href="{% url 'listaInvitados' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fa-solid fa-users text-4xl mb-3 text-yellow-400"></i>
+                     <span class="text-lg font-bold">Invitados</span>
+                </a>
+                <a href="{% url 'listaRecursos' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fas fa-tag text-4xl mb-3 text-yellow-400"></i>
+                    <span class="text-lg font-bold">Recursos</span>
+                </a>
+                <a href="{% url 'listaTipoEvento' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fa-solid fa-layer-group text-4xl mb-3 text-yellow-400"></i>
+                    <span class="text-lg font-bold">Tipo Evento</span>
+                </a>
+                {% if request.session.usuario_rol == 'admin' %}
+                <a href="{% url 'listaUsuarios' %}"
+                    class="bg-black p-6 rounded-lg border border-gray-800 flex flex-col items-center justify-center text-white card-hover transition-all w-full sm:w-1/2 md:w-1/4">
+                    <i class="fa-solid fa-address-book text-4xl mb-3 text-yellow-400"></i>
+                    <span class="text-lg font-bold">Lista de Usuarios</span>
+                </a>
+                {% endif %}
+
+            
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-yellow-400">SOBRE NOSOTROS</h2>
+                <div class="w-20 h-1 bg-yellow-400 mx-auto mb-6"></div>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto">
+                    Event Creation, una empresa dedicada a la creación y organización de eventos. A través del sitio
+                    web, los clientes podrán agendar
+                    citas de manera rápida y sencilla para coordinar todo tipo de eventos, desde celebraciones privadas
+                    hasta eventos corporativos. El objetivo es brindar una
+                    experiencia cómoda, segura y profesional desde el primer contacto.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                <div class="bg-gray-900 p-8 rounded-lg card-hover">
+                    <div class="text-yellow-400 text-4xl mb-4"><i class="fas fa-star"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Experiencia</h3>
+                    <p class="text-gray-300">Más de 2 años produciendo eventos de alto nivel.</p>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-lg card-hover">
+                    <div class="text-yellow-400 text-4xl mb-4"><i class="fas fa-network-wired"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Conexiones</h3>
+                    <p class="text-gray-300">Acceso exclusivo a una red de varias celebridades nacionales e
+                        internacionales.</p>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-lg card-hover">
+                    <div class="text-yellow-400 text-4xl mb-4"><i class="fas fa-medal"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Excelencia</h3>
+                    <p class="text-gray-300">Caracterizados entres las mejores agencias de eventos VIP en el ultimo año.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 px-4 bg-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-yellow-400">NUESTROS SERVICIOS</h2>
+                <div class="w-20 h-1 bg-yellow-400 mx-auto mb-6"></div>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto">Ofrecemos soluciones completas para integrar
+                    celebridades en tus eventos y campañas de marketing.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-black p-6 rounded-lg card-hover border border-gray-800">
+                    <img src="img/Basico.png" alt="Paquete Básico" class="w-full h-48 object-cover rounded-md mb-4" />
+                    <h3 class="text-xl font-bold mb-2 text-yellow-400">BÁSICO</h3>
+                    <p class="text-gray-300 mb-4">Una opción posible y económica para quienes desean celebrar en un
+                        ambiente alegre y sencillo. Ideal para reuniones familiares o celebraciones íntimas sin perder
+                        el toque especial.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Decoración temática sencilla (globos,
+                            pancarta y centros de mesa).</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Sonido básico (parlante + micrófono).</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> 1 animador o maestro de ceremonia.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Sillas y mesas estándar para hasta 30
+                            personas.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Mesa de torta con decoración básica.</li>
+                    </ul>
+                </div>
+                <div class="bg-black p-6 rounded-lg card-hover border border-gray-800">
+                    <img src="img/Medum.png" alt="Paquete Estándar" class="w-full h-48 object-cover rounded-md mb-4" />
+                    <h3 class="text-xl font-bold mb-2 text-yellow-400">ESTÁNDAR</h3>
+                    <p class="text-gray-300 mb-4">Perfecto para quienes quieren una celebración más completa y
+                        personalizada. Con detalles que marcan la diferencia, este paquete combina elegancia y
+                        entretenimiento en un solo lugar.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Decoración personalizada según temática
+                            (incluye iluminación ambiental).</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> DJ profesional con sistema de sonido
+                            intermedio.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> 2 animadores o presentadores.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Sillas vestidas y mesas decoradas para
+                            hasta 50 personas.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Mesa principal decorada con cortina de
+                            fondo y mesa de dulces.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Cobertura fotográfica básica.</li>
+                    </ul>
+                </div>
+                <div class="bg-black p-6 rounded-lg card-hover border border-gray-800">
+                    <img src="img/Premiunn.png" alt="Paquete Premium"
+                        class="w-full h-48 object-cover rounded-md mb-4" />
+                    <h3 class="text-xl font-bold mb-2 text-yellow-400">PREMIUM</h3>
+                    <p class="text-gray-300 mb-4">La experiencia definitiva en organización de celebraciones. Pensado
+                        para quienes desean un evento exclusivo, inolvidable y lleno de detalles únicos que sorprendan a
+                        todos los invitados.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Decoración de lujo con mobiliario
+                            temático, luces LED, pista de baile y estructuras personalizadas.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> DJ + show en vivo (músicos, bailarines o
+                            performance temático).</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Coordinador de evento + staff completo
+                            (animadores, meseros, logística).</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Sillas tiffany o lounge y mesas elegantes
+                            para hasta 100 personas.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Estación de postres y barra de bebidas con
+                            o sin alcohol.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Fotografía y video profesional con
+                            edición.</li>
+                        <li><i class="fas fa-check text-yellow-400 mr-2"></i> Souvenirs personalizados.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-yellow-400">ALGUNOS EVENTOS QUE HEMOS TRABAJADO</h2>
+                <div class="w-20 h-1 bg-yellow-400 mx-auto mb-6"></div>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto">Estas son solo algunas de las muchas celebridades que
+                    hemos gestionado para nuestros clientes.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="celebrity-card relative overflow-hidden rounded-lg h-64">
+                    <img src="img/Exteriores.jpeg" class="w-full h-full object-cover" />
+                    <div
+                        class="celebrity-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+                        <h3 class="text-xl font-bold text-yellow-400">EXTERIORES</h3>
+                    </div>
+                </div>
+                <div class="celebrity-card relative overflow-hidden rounded-lg h-64">
+                    <img src="img/Grados.jpeg" class="w-full h-full object-cover" />
+                    <div
+                        class="celebrity-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+                        <h3 class="text-xl font-bold text-yellow-400">GRADOS</h3>
+                    </div>
+                </div>
+                <div class="celebrity-card relative overflow-hidden rounded-lg h-64">
+                    <img src="img/Quinces.jpeg" class="w-full h-full object-cover" />
+                    <div
+                        class="celebrity-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+                        <h3 class="text-xl font-bold text-yellow-400">QUINCES</h3>
+                    </div>
+                </div>
+                <div class="celebrity-card relative overflow-hidden rounded-lg h-64">
+                    <img src="img/Revelaciones.jpeg" class="w-full h-full object-cover" />
+                    <div
+                        class="celebrity-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+                        <h3 class="text-xl font-bold text-yellow-400">REVELACIONES</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="pagina%20error/error2.html"
+                    class="inline-flex items-center px-6 py-3 border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-bold rounded-full transition duration-300">
+                    Ver más eventos <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-4 bg-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-yellow-400">NUESTRA MISIÓN Y VISIÓN</h2>
+                <div class="w-20 h-1 bg-yellow-400 mx-auto mb-6"></div>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto">A continuación:</p>
+            </div>
+            <div class="bg-black p-6 rounded-lg card-hover border border-gray-800 mb-8 flex flex-col items-center">
+                <img src="img/mision.png" alt="Misión" class="w-auto h-24 object-contain rounded-md mb-4" />
+                <h3 class="text-xl font-bold mb-2 text-yellow-400 text-center">MISIÓN</h3>
+                <p class="text-gray-300 text-center">Brindar un servicio profesional y personalizado en la creación y
+                    organización de eventos, facilitando el proceso a través de una plataforma web que permite agendar
+                    citas de forma rápida, eficiente y segura.</p>
+            </div>
+            <div class="bg-black p-6 rounded-lg card-hover border border-gray-800 flex flex-col items-center">
+                <img src="img/vision.png" alt="Visión" class="w-auto h-24 object-contain rounded-md mb-4" />
+                <h3 class="text-xl font-bold mb-2 text-yellow-400 text-center">VISIÓN</h3>
+                <p class="text-gray-300 text-center">Ser una empresa líder en el sector de organización de eventos,
+                    reconocida por su innovación, atención al cliente y uso de herramientas digitales que simplifican la
+                    planificación y garantizan experiencias memorables.</p>
+            </div>
+            <div class="text-center mt-12">
+                <a href="pagina%20error/error1.html"
+                    class="inline-flex items-center px-6 py-3 border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-bold rounded-full transition duration-300">
+                    Ver más <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-yellow-400">LO QUE DICEN NUESTROS CLIENTES</h2>
+                <div class="w-20 h-1 bg-yellow-400 mx-auto mb-6"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-900 p-8 rounded-lg">
+                    <div class="text-yellow-400 text-4xl mb-4"><i class="fas fa-quote-left"></i></div>
+                    <p class="text-gray-300 italic mb-6">"Event Creation superó todas nuestras expectativas. Lograron
+                        que nos sintamos en armonía y felicidad, ¡fue un éxito rotundo!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/dbdcdd0f-1f83-42db-a1e0-8b9c8722ec0a.png"
+                                alt="Carlos Méndez" class="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Carlos Méndez</h4>
+                            <p class="text-gray-400 text-sm">Director de Marketing, Coca-Cola</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-lg">
+                    <div class="text-yellow-400 text-4xl mb-4"><i class="fas fa-quote-left"></i></div>
+                    <p class="text-gray-300 italic mb-6">"Excelente servicio y puntualidad, con una calidad del
+                        personal. ¡Fue grandioso!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d5325a3b-2bf4-44a3-a721-ef3824b975b8.png"
+                                alt="Ana Rodríguez" class="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Ana Rodríguez</h4>
+                            <p class="text-gray-400 text-sm">CEO, Louis Vuitton</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-lg">
+                    <div class="text-yellow-400 text-4xl mb-4"><i class="fas fa-quote-left"></i></div>
+                    <p class="text-gray-300 italic mb-6">"La fiesta que organizaron para nuestro aniversario con
+                        invitados VIP fue espectacular. Todo el mundo sigue hablando de ello."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4da31429-c4ec-4438-a2f8-5b94541d2b82.png"
+                                alt="Miguel Torres" class="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Miguel Torres</h4>
+                            <p class="text-gray-400 text-sm">Fundador, Amazon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 px-4 bg-gray-900">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-yellow-400">CONTÁCTANOS</h2>
+                <div class="w-20 h-1 bg-yellow-400 mx-auto mb-6"></div>
+                <p class="text-lg md:text-xl max-w-2xl mx-auto">Envíanos un mensaje y te responderemos en menos de 24
+                    horas.</p>
+            </div>
+            <form class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-gray-300 mb-2">Nombre</label>
+                        <input type="text" id="name"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            placeholder="Tu nombre" required />
+                    </div>
+                    <div>
+                        <label for="company" class="block text-gray-300 mb-2">Empresa</label>
+                        <input type="text" id="company"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            placeholder="Nombre de tu empresa" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="email" class="block text-gray-300 mb-2">Email</label>
+                        <input type="email" id="email"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            placeholder="tu@email.com" required />
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-gray-300 mb-2">Teléfono</label>
+                        <input type="tel" id="phone"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            placeholder="+57 123 456 789" required />
+                    </div>
+                </div>
+                <div>
+                    <label for="event-type" class="block text-gray-300 mb-2">Tipo de Evento</label>
+                    <select id="event-type"
+                        class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                        required>
+                        <option value="">Selecciona un tipo de evento</option>
+                        <option value="corporate">Evento Corporativo</option>
+                        <option value="launch">Lanzamiento de Producto</option>
+                        <option value="vip">Evento VIP</option>
+                        <option value="brand">Brand Endorsement</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="message" class="block text-gray-300 mb-2">Mensaje</label>
+                    <textarea id="message" rows="5"
+                        class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                        placeholder="Cuéntanos sobre tu evento" required></textarea>
+                </div>
+                <div class="pt-4">
+                    <button type="submit"
+                        class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-4 px-6 rounded-md transition duration-300 transform hover:scale-[1.02]">
+                        Enviar Mensaje
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <p id="modal-message" class="text-white text-lg"></p>
+        </div>
+    </div>
+
+    <footer class="bg-black py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <h3 class="text-2xl font-bold mb-4 text-yellow-400">EVENT CREATION</h3>
+                    <p class="text-gray-400 mb-6">La agencia líder en producción de eventos con celebridades para marcas
+                        exclusivas.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-xl"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-xl"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-xl"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-xl"><i
+                                class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white">Enlaces Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 hover:text-yellow-400 transition">Sobre Nosotros</a>
+                        </li>
+                        <li><a href="#services" class="text-gray-400 hover:text-yellow-400 transition">Servicios</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-yellow-400 transition">Galería</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-yellow-400 transition">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white">Contacto</h4>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400"><i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i> Avenida de
+                            la Celebridad, 123 Madrid</li>
+                        <li class="text-gray-400"><i class="fas fa-phone mr-2 text-yellow-400"></i> +34 91 234 56 78
+                        </li>
+                        <li class="text-gray-400"><i class="fas fa-envelope mr-2 text-yellow-400"></i>
+                            hola@eventcreation.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+                <p>© 2025 Event Creation. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showModal(message) {
+            document.getElementById('modal-message').innerText = message;
+            document.getElementById('modal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                showModal('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
+                form.reset();
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('animate-fadein');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-fadein').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

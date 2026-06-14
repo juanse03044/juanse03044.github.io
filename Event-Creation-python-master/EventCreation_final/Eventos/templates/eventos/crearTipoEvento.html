@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Crear Tipo Evento</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 text-white flex items-center justify-center min-h-screen">
+
+<div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md">
+
+    <h2 class="text-2xl font-bold text-yellow-400 mb-6 text-center">
+        Crear Tipo Evento
+    </h2>
+<p>Total registros: {{ tipoEvento|length }}</p>
+       <form method="POST">
+    {% csrf_token %}
+
+    <!-- 🔴 MOSTRAR ERRORES -->
+  {% if form.errors %}
+    <div class="bg-red-500 text-white p-3 rounded mb-4">
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p><strong>{{ field.label }}:</strong> {{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+
+        {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+    <!-- 🔹 CAMPOS -->
+    <div class="mb-4">
+        <label class="block mb-2 text-sm">Nombre</label>
+        {{ form.nombre }}
+           <style>
+        #id_nombre, #id_descripcion {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            color: white;
+        }
+    </style>
+        <label class="block mb-2 text-sm">Descripcion</label>
+        {{ form.descripcion }}
+    </div>
+
+        <!-- 🔹 BOTONES -->
+        <div class="flex justify-between mt-6">
+
+            <a href="{% url 'listaTipoEvento' %}" 
+               class="bg-gray-600 px-4 py-2 rounded hover:bg-gray-500">
+                Cancelar
+            </a>
+
+            <button type="submit" 
+                class="bg-yellow-400 text-black px-4 py-2 rounded font-semibold hover:bg-yellow-300">
+                Guardar
+            </button>
+
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Eliminar Recurso</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 flex items-center justify-center min-h-screen text-white">
+
+<div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md text-center">
+
+    <h2 class="text-2xl font-bold text-red-400 mb-6">
+        ¿Eliminar Recurso?
+    </h2>
+
+    <p class="mb-2 font-semibold text-lg">
+        {{ object.nombre }}
+    </p>
+
+    <p class="mb-6 text-gray-400">
+        {{ object.descripcion }}
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="flex justify-between">
+
+            <a href="{% url 'listaRecursos' %}" 
+               class="bg-gray-500 px-4 py-2 rounded-lg hover:bg-gray-400 transition">
+                Cancelar
+            </a>
+
+            <button type="submit" 
+                class="bg-red-500 px-5 py-2 rounded-lg hover:bg-red-400 font-bold transition">
+                Eliminar
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

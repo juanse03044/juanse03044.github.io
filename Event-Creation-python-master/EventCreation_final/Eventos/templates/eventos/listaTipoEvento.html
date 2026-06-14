@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tipo Evento</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 text-white p-10">
+    
+    {% if messages %}
+    {% for message in messages %}
+        <div class="bg-green-500 text-white p-3 rounded mb-6 text-center font-semibold shadow">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- 🔥 TÍTULO + BOTÓN -->
+<div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-yellow-400">TIPO EVENTO</h1>
+
+    <div class="space-x-2">
+        <a href="{% url 'crearTipoEvento' %}" 
+           class="bg-yellow-400 text-black px-5 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">
+            + Agregar Tipo Evento
+        </a>
+
+        <a href="{% url 'inicio' %}" 
+           class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg">
+           Volver
+        </a>
+    </div>
+</div>
+<!-- 📋 LISTA -->
+<div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+    <table class="w-full text-left">
+        <thead class="bg-gray-700 text-yellow-300">
+    <tr>
+        <th class="p-4">Nombre</th>
+        <th class="p-4">Descripción</th>
+        <th class="p-4 text-center">Acciones</th>
+    </tr>
+</thead>
+
+<tbody>
+    {% for t in tipos %}
+    <tr class="border-b border-gray-700 hover:bg-gray-700 transition">
+        <td class="p-4">{{ t.nombre }}</td>
+        <td class="p-4">{{ t.descripcion }}</td>
+
+        <td class="p-4 text-center space-x-2">
+            <a href="{% url 'editarTipoEvento' t.pk %}" 
+               class="bg-blue-500 px-3 py-1 rounded hover:bg-blue-400">
+                Editar
+            </a>
+
+            <a href="{% url 'eliminarTipoEvento' t.pk %}" 
+               class="bg-red-500 px-3 py-1 rounded hover:bg-red-400">
+                Eliminar
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+    </table>
+</div>
+
+</body>
+</html>

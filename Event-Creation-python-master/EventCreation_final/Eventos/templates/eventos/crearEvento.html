@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Crear Evento</title>
+
+<style>
+body {
+    background-color: #0b1a33;
+    font-family: Arial;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.contenedor {
+    background-color: #1e293b;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+}
+label {
+    color: #facc15;
+    font-weight: bold;
+}
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 5px;
+    color: black;
+}
+.btn {
+    background: #facc15;
+    color: black;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="contenedor">
+
+<h2 style="text-align:center; color:#facc15;">Crear Evento</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+   
+
+    <!-- CAMPOS -->
+    <label>Título</label>
+    {{ form.titulo }}
+
+    <label>Fecha</label>
+    {{ form.fecha }}
+
+    <label>Lugar</label>
+    {{ form.lugar }}
+
+    <label>Tipo Evento</label>
+    {{ form.id_tipo }}
+
+    <button type="submit" class="btn">Guardar</button>
+</form>
+
+</div>
+
+</body>
+</html>

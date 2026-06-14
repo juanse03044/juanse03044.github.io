@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Carga Masiva General</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <h3>Tipo Evento</h3>
+    <input type="file" name="tipo_evento">
+
+    <h3>Eventos</h3>
+    <input type="file" name="eventos">
+
+    <h3>Invitados</h3>
+    <input type="file" name="invitados">
+
+    <br><br>
+
+    <button type="submit">
+        Cargar Datos
+    </button>
+
+</form>
+
+{% endblock %}

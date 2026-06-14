@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Administradores</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 text-white p-10">
+
+<div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-yellow-400">ADMINISTRADORES</h1>
+
+
+<div class="space-x-2">
+    <a href="{% url 'crearAdministrador' %}" 
+       class="bg-yellow-400 text-black px-5 py-2 rounded-lg font-semibold hover:bg-yellow-300">
+        + Agregar
+    </a>
+
+    <a href="{% url 'inicio' %}" 
+       class="bg-yellow-500 px-5 py-2 rounded-lg text-black font-bold">
+        Volver
+    </a>
+</div>
+
+
+</div>
+
+<div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+<table class="w-full text-left">
+
+<thead class="bg-gray-700 text-yellow-300">
+<tr>
+    <th class="p-4">Nombre</th>
+    <th class="p-4">Apellido</th>
+    <th class="p-4">Teléfono</th>
+    <th class="p-4 text-center">Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for a in administradores %}
+<tr class="border-b border-gray-700 hover:bg-gray-700">
+
+<td class="p-4">{{ a.nombre }}</td>
+<td class="p-4">{{ a.apellido }}</td>
+<td class="p-4">{{ a.telefono }}</td>
+
+<td class="p-4 text-center space-x-2">
+    <a href="{% url 'editarAdministrador' a.pk %}" 
+       class="bg-blue-500 px-3 py-1 rounded hover:bg-blue-400">
+        Editar
+    </a>
+
+
+<a href="{% url 'eliminarAdministrador' a.pk %}" 
+   class="bg-red-500 px-3 py-1 rounded hover:bg-red-400">
+    Eliminar
+</a>
+
+
+</td>
+
+</tr>
+{% empty %}
+<tr>
+    <td colspan="4" class="text-center p-4 text-gray-400">
+        No hay administradores
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+</div>
+
+</body>
+</html>

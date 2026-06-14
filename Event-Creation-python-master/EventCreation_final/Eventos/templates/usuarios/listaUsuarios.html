@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Usuarios</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background: #0f172a; }
+table { width: 100%; background: #111827; border-radius: 10px; overflow: hidden; }
+th { background: #1f2937; padding: 12px; }
+td { padding: 10px; border-top: 1px solid #374151; text-align: center; }
+.btn { background: #facc15; color: black; padding: 6px 12px; border-radius: 6px; }
+</style>
+
+</head>
+
+<body class="text-white p-10">
+
+<!-- ✅ MENSAJES -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="bg-green-500 text-white p-3 rounded mb-6 text-center font-semibold shadow">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- 🔥 TÍTULO + BOTÓN -->
+<div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-yellow-400">USUARIOS</h1>
+
+     <a href="{% url 'inicio' %}"
+   class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-bold hover:bg-yellow-500">
+    Volver
+</a>
+    <a href="{% url 'crearUsuario' %}" class="btn">
+        + Agregar Usuario
+    </a>
+</div>
+
+<!-- 📋 TABLA -->
+<div class="shadow-lg">
+    <table>
+        <thead class="text-yellow-300">
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td>{{ u.nombre }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.rol }}</td>
+                <td>{{ u.estado }}</td>
+
+                <td class="space-x-2">
+                    <!-- ✏️ EDITAR -->
+                    <a href="{% url 'editarUsuario' u.pk %}" 
+                       class="bg-blue-500 px-3 py-1 rounded hover:bg-blue-400">
+                        Editar
+                    </a>
+
+                    <!-- ❌ ELIMINAR -->
+                    <a href="{% url 'eliminarUsuario' u.pk %}" 
+                       class="bg-red-500 px-3 py-1 rounded hover:bg-red-400">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-gray-400">
+                    No hay usuarios registrados
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

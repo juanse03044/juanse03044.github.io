@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Usuario - Event Creation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap'); body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-black text-white min-h-screen">
+    <header class="py-6 px-4 bg-gray-900 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <a href="{% url 'inicio' %}" class="text-3xl font-bold text-yellow-400">EVENT CREATION</a>
+        </div>
+    </header>
+    <div class="flex items-center justify-center min-h-[calc(100vh-80px)] px-4">
+        <div class="bg-gray-900 rounded-lg p-8 border border-gray-800 max-w-md w-full text-center">
+            <i class="fas fa-trash text-red-400 text-4xl mb-4"></i>
+            <h2 class="text-xl font-bold mb-2">¿Eliminar usuario?</h2>
+            <p class="text-gray-400 mb-6">{{ usuario.nombre }} {{ usuario.apellido }} — {{ usuario.email }}</p>
+            <form method="post" class="flex gap-3">
+                {% csrf_token %}
+                <button type="submit" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-md transition">Eliminar</button>
+                <a href="{% url 'gestion_usuarios' %}" class="flex-1 text-center border border-gray-600 text-gray-400 hover:border-yellow-400 hover:text-yellow-400 font-bold py-3 rounded-md transition">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-black text-white">
+
+<div class="max-w-6xl mx-auto py-10 px-4">
+
+    <!-- TITULO -->
+    <h1 class="text-3xl font-bold text-yellow-400 mb-10 text-center">
+        DASHBOARD
+    </h1>
+    
+        <a href="{% url 'inicio' %}" 
+           class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg">
+           Volver
+        </a>
+
+    <!-- TARJETAS -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+        <div class="bg-gray-900 p-6 rounded-lg text-center shadow-lg hover:scale-105 transition">
+            <h2 class="text-xl mb-2">Eventos</h2>
+            <p class="text-3xl text-yellow-400 font-bold">{{ total_eventos }}</p>
+        </div>
+
+        <div class="bg-gray-900 p-6 rounded-lg text-center shadow-lg hover:scale-105 transition">
+            <h2 class="text-xl mb-2">Usuarios</h2>
+            <p class="text-3xl text-yellow-400 font-bold">{{ total_usuarios }}</p>
+        </div>
+
+        <div class="bg-gray-900 p-6 rounded-lg text-center shadow-lg hover:scale-105 transition">
+            <h2 class="text-xl mb-2">Invitados</h2>
+            <p class="text-3xl text-yellow-400 font-bold">{{ total_invitados }}</p>
+        </div>
+
+        <div class="bg-gray-900 p-6 rounded-lg text-center shadow-lg hover:scale-105 transition">
+            <h2 class="text-xl mb-2">Recursos</h2>
+            <p class="text-3xl text-yellow-400 font-bold">{{ total_recursos }}</p>
+        </div>
+
+    </div>
+
+   
+
+    <!-- GRAFICA -->
+    <div class="mt-12 bg-gray-900 p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl text-yellow-400 mb-4 text-center">
+            Eventos por Tipo
+        </h2>
+        <canvas id="miGrafica"></canvas>
+    </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const labels = JSON.parse('{{ labels|escapejs }}');
+    const data = JSON.parse('{{ data|escapejs }}');
+
+    const ctx = document.getElementById('miGrafica').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Cantidad de Eventos',
+                data: data,
+                backgroundColor: 'rgba(234, 179, 8, 0.7)',
+                borderColor: 'rgba(234, 179, 8, 1)',
+                borderWidth: 2
+            }]
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>

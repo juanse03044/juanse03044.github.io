@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Recursos</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 text-white min-h-screen p-10">
+
+<div class="max-w-5xl mx-auto">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-6">
+
+        <h1 class="text-3xl font-bold text-yellow-400">
+            Lista de Recursos
+        </h1>
+
+        <div class="flex gap-2">
+            <a href="{% url 'inicio' %}" 
+               class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg font-bold transition">
+                Volver
+            </a>
+
+            <a href="{% url 'crearRecurso' %}" 
+               class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg font-bold transition">
+                + Nuevo
+            </a>
+        </div>
+
+    </div>
+
+    <!-- TABLA -->
+    <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg">
+        <table class="w-full text-left">
+            
+            <thead class="bg-gray-700 text-gray-200">
+                <tr>
+                    <th class="p-3">Nombre</th>
+                    <th class="p-3">Descripción</th>
+                    <th class="p-3">Tipo Evento</th>
+                    <th class="p-3 text-center">Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for r in recursos %}
+                <tr class="border-t border-gray-600 hover:bg-gray-700 transition">
+
+                    <td class="p-3 font-semibold">
+                        {{ r.nombre|default:"-" }}
+                    </td>
+
+                    <td class="p-3">
+                        {{ r.descripcion|default:"-" }}
+                    </td>
+
+                    <td class="p-3">
+                        {{ r.tipoEvento|default:"-" }}
+                    </td>
+
+                    <td class="p-3 text-center">
+                        <div class="flex justify-center gap-2">
+
+                            <!-- EDITAR -->
+                            <a href="{% url 'editarRecurso' r.pk %}" 
+                               class="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-lg text-sm transition">
+                                Editar
+                            </a>
+
+                            <!-- ELIMINAR -->
+                            <a href="{% url 'eliminarRecurso' r.pk %}" 
+                               class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm transition">
+                                Eliminar
+                            </a>
+
+                        </div>
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="p-6 text-center text-gray-400">
+                        No hay recursos registrados 😕
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

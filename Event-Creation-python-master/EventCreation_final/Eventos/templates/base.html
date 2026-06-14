@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Creation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-black text-white">
+
+    <header class="py-6 px-4 md:px-8 bg-gray-900 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <a href="/" class="text-3xl font-bold text-yellow-400 mb-4 md:mb-0">EVENT CREATION</a>
+            <div class="flex flex-wrap justify-center md:justify-end items-center space-x-4">
+                {% if request.session.usuario_id %}
+                <a href="{% url 'perfil' %}" class="text-gray-300 hover:text-yellow-400">
+                    <i class="fas fa-user mr-1"></i>{{ request.session.usuario_nombre }}
+                </a>
+                <a href="{% url 'logout' %}" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full">
+                    Cerrar Sesión
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full">
+                    Iniciar Sesión
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main class="min-h-screen p-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-black py-8 px-4 text-center text-gray-500 border-t border-gray-800">
+        <p>© 2025 Event Creation. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

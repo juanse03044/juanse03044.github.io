@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Crear Usuario</title>
+    <!doctype html>
+
+    <html lang="es">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Crear Usuario</title>
+
+        <!-- Tailwind -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <style>
+          body {
+            background: #0f172a;
+          }
+
+          /* INPUTS */
+          .input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            background: white;
+            color: black;
+            border: 1px solid #374151;
+          }
+
+          input,
+          select,
+          textarea {
+            color: black !important;
+            background: white !important;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+          }
+
+          /* LABELS */
+          .label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+          }
+
+          /* BOTÓN GUARDAR */
+          .btn {
+            background-color: #facc15;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+          }
+
+          .btn:hover {
+            background-color: #eab308;
+            transform: scale(1.05);
+          }
+        </style>
+      </head>
+
+      <body class="flex items-center justify-center min-h-screen text-white">
+        <div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md">
+          <h2 class="text-2xl font-bold text-yellow-400 mb-6 text-center">
+            {% if object %} Editar Usuario {% else %} Crear Usuario {% endif %}
+          </h2>
+
+          <form method="POST">
+            {% csrf_token %}
+
+            <!-- NOMBRE -->
+            <div class="mb-4">
+              <label class="label">Nombre</label>
+              {{ form.nombre }}
+            </div>
+            <div class="mb-4">
+              <label class="label">Apellido</label>
+              {{ form.apellido }}
+            </div>
+
+            <!-- CORREO -->
+            <div class="mb-4">
+              <label class="label">Correo</label>
+              {{ form.email }}
+            </div>
+
+            <!-- ROL -->
+            <div class="mb-4">
+              <label class="label">Rol</label>
+              {{ form.rol }}
+            </div>
+
+            <div class="mb-4">
+              <label class="label">Estado</label>
+              {{ form.estado }}
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="mb-4">
+              <label class="label">Contraseña</label>
+              {{ form.password }}
+            </div>
+
+            <!-- BOTONES -->
+            <div class="flex justify-between mt-6">
+              <a
+                href="{% url 'listaUsuarios' %}"
+                class="bg-gray-600 px-4 py-2 rounded hover:bg-gray-500"
+              >
+                Cancelar
+              </a>
+
+              <button type="submit" class="btn">Guardar</button>
+            </div>
+          </form>
+          {% if form.errors %}
+          <div class="mb-4 p-3 bg-red-900 text-red-300 rounded text-sm">
+            {{ form.errors }}
+          </div>
+          {% endif %}
+        </div>
+      </body>
+    </html>
+  </head>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Horario</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+.input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+}
+</style>
+
+</head>
+
+<body class="bg-slate-900 flex items-center justify-center min-h-screen text-white">
+
+<div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md">
+
+<h2 class="text-2xl font-bold text-yellow-400 mb-6 text-center">
+    {% if form.instance.pk %}
+        Editar Horario
+    {% else %}
+        Crear Horario
+    {% endif %}
+</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <!-- FECHA -->
+    <div class="mb-4">
+        <label class="block mb-1">Fecha</label>
+        {{ form.fecha }}
+    </div>
+ <style>
+        #id_fecha, #id_duracion, #id_hora_inicio, #id_hora_fin, #id_evento {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            color: white;
+        }
+    </style>
+    <div class="mb-4">
+    <label>Evento</label>
+    {{ form.evento }}
+</div>
+
+    <!-- HORA INICIO -->
+    <div class="mb-4">
+        <label class="block mb-1">Hora Inicio</label>
+        {{ form.hora_inicio }}
+    </div>
+
+    <!-- HORA FIN -->
+    <div class="mb-4">
+        <label class="block mb-1">Hora Fin</label>
+        {{ form.hora_fin }}
+    </div>
+
+    <div class="flex justify-between mt-6">
+        <a href="{% url 'listaHorarios' %}" 
+           class="bg-yellow-500 text-black px-4 py-2 rounded-lg font-bold">
+            Volver
+        </a>
+
+        <button type="submit" 
+            class="bg-yellow-400 text-black px-5 py-2 rounded-lg font-bold">
+            Guardar
+        </button>
+    </div>
+</form>
+</div>
+
+</body>
+</html>

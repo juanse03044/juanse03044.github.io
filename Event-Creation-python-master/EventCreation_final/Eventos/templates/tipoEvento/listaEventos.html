@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tipo Evento</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background: #0f172a; }
+ul { background: #111827; padding: 20px; border-radius: 10px; }
+li { border-bottom: 1px solid #374151; padding: 10px; }
+</style>
+</head>
+
+<body class="text-white p-10">
+
+<h1 class="text-3xl text-yellow-400 mb-6">TIPO EVENTO</h1>
+
+<ul>
+{% for t in tipos %}
+<li>{{ t.nombre }}</li>
+{% endfor %}
+</ul>
+
+</body>
+</html>
