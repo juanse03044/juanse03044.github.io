@@ -32,6 +32,10 @@ ALLOWED_HOSTS = [
    
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://juanse03044-github-io-2.onrender.com",
+]
+
 # Application definition
 
 INSTALLED_APPS = [
