@@ -200,13 +200,47 @@ class HorariosForm(forms.ModelForm):
         fields = '__all__'
 
 
+import re
+from django.core.exceptions import ValidationError
+
 class InvitadosForm(forms.ModelForm):
     class Meta:
         model = Invitados
         fields = '__all__'
+
+    def _validar_nombre(self, valor, campo):
+        valor = valor.strip()
+        if not valor:
+            raise ValidationError(f'El {campo} no puede estar vacío.')
+        # Solo letras (incluye tildes y ñ), espacios y guiones
+        patron = r'^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s\-]+$'
+        if not re.match(patron, valor):
+            raise ValidationError(f'El {campo} solo puede contener letras.')
+        if len(valor) < 2:
+            raise ValidationError(f'El {campo} es demasiado corto.')
+        return valor
+
+    def clean_nombre(self):
+        return self._validar_nombre(self.cleaned_data.get('nombre', ''), 'nombre')
+
+    def clean_apellido(self):
+        return self._validar_nombre(self.cleaned_data.get('apellido', ''), 'apellido')
 
 
 class RecursosForm(forms.ModelForm):
     class Meta:
         model = Recursos
         fields = '__all__'
+
+    def clean_nombre(self):
+        nombre = self.cleaned_data.get('nombre', '').strip()
+        if not nombre:
+            raise ValidationError('El nombre no puede estar vacío.')
+
+        query = Recursos.objects.filter(nombre__iexact=nombre)
+        if self.instance.pk:
+            query = query.exclude(pk=self.instance.pk)
+
+        if query.exists():
+            raise ValidationError('Ya existe un recurso con este nombre.')
+        return nombre
