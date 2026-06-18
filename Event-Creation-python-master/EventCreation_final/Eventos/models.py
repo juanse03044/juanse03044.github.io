@@ -20,8 +20,8 @@ class Eventos(models.Model):
     fecha = models.DateField()
     lugar = models.CharField(max_length=100)
     id_tipo = models.ForeignKey('TipoEvento', models.DO_NOTHING, db_column='id_tipo')
-    def __str__(self):
-     return self.titulo
+    creado_por = models.ForeignKey('Usuarios', on_delete=models.SET_NULL, null=True, blank=True, related_name='eventos_creados')
+
     class Meta:
         managed = True
         db_table = 'eventos'
