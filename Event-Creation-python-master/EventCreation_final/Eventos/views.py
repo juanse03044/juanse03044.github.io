@@ -150,18 +150,13 @@ class listaEventos(ListView):
         rol = self.request.session.get('usuario_rol')
 
         if rol == 'admin':
-            # Admin ve todos los eventos
-            return Eventos.objects.select_related('id_tipo').all()
-        else:
-            # Usuario ve solo los eventos donde está como invitado
-            usuario_id = self.request.session.get('usuario_id')
-            eventos_ids = Invitados.objects.filter(
-                usuario_id=usuario_id
-            ).values_list('evento_id', flat=True)
-            return Eventos.objects.filter(
-                id_evento__in=eventos_ids
-            ).select_related('id_tipo')
+           return Eventos.objects.select_related('id_tipo').all()
 
+        usuario_id = self.request.session.get('usuario_id')
+
+        return Eventos.objects.filter(
+        creado_por_id=usuario_id
+        ).select_related('id_tipo')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['es_admin'] = self.request.session.get('usuario_rol') == 'admin'
