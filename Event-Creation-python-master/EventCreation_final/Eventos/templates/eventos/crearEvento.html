@@ -53,20 +53,44 @@ input, select {
 
    
 
-    <!-- CAMPOS -->
     <label>Título</label>
-    {{ form.titulo }}
+{{ form.titulo }}
+{{ form.titulo.errors }}
 
-    <label>Fecha</label>
-    {{ form.fecha }}
+<label>Fecha</label>
+{{ form.fecha }}
+{{ form.fecha.errors }}
 
-    <label>Lugar</label>
-    {{ form.lugar }}
+<label>Lugar</label>
+{{ form.lugar }}
+{{ form.lugar.errors }}
 
-    <label>Tipo Evento</label>
-    {{ form.id_tipo }}
+<label>Tipo Evento</label>
+{{ form.id_tipo }}
+{{ form.id_tipo.errors }}
 
-    <button type="submit" class="btn">Guardar</button>
+
+{% if form.errors %}
+<div style="
+    background:#7f1d1d;
+    color:white;
+    padding:10px;
+    border-radius:5px;
+    margin-bottom:15px;
+">
+    <strong>Corrige los siguientes errores:</strong>
+
+    {% for field in form %}
+        {% for error in field.errors %}
+            <p>{{ field.label }}: {{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+
+    {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
+</div>
+{% endif %}
 </form>
 
 </div>
