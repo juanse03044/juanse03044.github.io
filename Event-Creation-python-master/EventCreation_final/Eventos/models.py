@@ -19,13 +19,26 @@ class Eventos(models.Model):
     titulo = models.CharField(max_length=100)
     fecha = models.DateField()
     lugar = models.CharField(max_length=100)
-    id_tipo = models.ForeignKey('TipoEvento', models.DO_NOTHING, db_column='id_tipo')
-    creado_por = models.ForeignKey('Usuarios', on_delete=models.SET_NULL, null=True, blank=True, related_name='eventos_creados')
+
+    cantidad_invitados = models.PositiveIntegerField(default=0)
+
+    id_tipo = models.ForeignKey(
+        'TipoEvento',
+        models.DO_NOTHING,
+        db_column='id_tipo'
+    )
+
+    creado_por = models.ForeignKey(
+        'Usuarios',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='eventos_creados'
+    )
 
     class Meta:
         managed = True
         db_table = 'eventos'
-
 
 class Horarios(models.Model):
     id_horario = models.AutoField(primary_key=True)

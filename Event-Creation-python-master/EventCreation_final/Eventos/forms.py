@@ -194,6 +194,7 @@ class AdministradorForm(forms.ModelForm):
         fields = '__all__'
 
 
+
 class HorariosForm(forms.ModelForm):
     class Meta:
         model = Horarios

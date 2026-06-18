@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
@@ -598,25 +600,37 @@ def exportar_pdf(request):
 
 def carga_masiva_general(request):
     if request.method == 'POST':
-        archivo = request.FILES.get('archivo')
+        archivo_tipo = request.FILES.get('tipo_evento')
+        archivo_eventos = request.FILES.get('eventos')
+        archivo_invitados = request.FILES.get('invitados')
 
-        if not archivo:
+        if not archivo_tipo and not archivo_eventos and not archivo_invitados:
             messages.error(request, 'No se seleccionó ningún archivo.')
             return redirect('carga_masiva_general')
 
         try:
-            wb = openpyxl.load_workbook(archivo)
-            ws = wb.active
-            errores = []
-            creados = 0
+            if archivo_tipo:
+                wb = openpyxl.load_workbook(archivo_tipo)
+                ws = wb.active
+                errores = []
+                creados = 0
 
             # Columnas esperadas en el Excel:
             # A: titulo | B: fecha (YYYY-MM-DD) | C: lugar | D: id_tipo (número)
             for i, fila in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
-                titulo  = fila[0]
-                fecha   = fila[1]
-                lugar   = fila[2]
+                titulo = fila[0]
+                fecha = fila[1]
+                lugar = fila[2]
                 id_tipo = fila[3]
+                cantidad_invitados = fila[4]
+
+                Eventos.objects.create(
+                    titulo=titulo,
+                    fecha=fecha,
+                    lugar=lugar or '',
+                    cantidad_invitados=cantidad_invitados or 0,
+                    id_tipo=tipo
+                )
 
                 if not titulo:
                     errores.append(f'Fila {i}: título vacío')

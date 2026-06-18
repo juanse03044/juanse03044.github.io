@@ -2,26 +2,84 @@
 
 {% block content %}
 
-<h2>Carga Masiva General</h2>
+<div class="min-h-screen flex items-center justify-center bg-gray-100 py-10">
+    
+    <div class="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-8">
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
+            📂 Carga Masiva General
+        </h2>
 
-    <h3>Tipo Evento</h3>
-    <input type="file" name="tipo_evento">
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
 
-    <h3>Eventos</h3>
-    <input type="file" name="eventos">
+            <!-- Tipo Evento -->
+            <div>
+                <label class="block text-lg font-semibold text-gray-700 mb-2">
+                    Tipo Evento
+                </label>
 
-    <h3>Invitados</h3>
-    <input type="file" name="invitados">
+                <input
+                    type="file"
+                    name="tipo_evento"
+                    class="block w-full text-sm text-gray-600
+                    file:mr-4 file:py-3 file:px-6
+                    file:rounded-lg file:border-0
+                    file:bg-blue-600 file:text-white
+                    hover:file:bg-blue-700
+                    cursor-pointer"
+                >
+            </div>
 
-    <br><br>
+            <!-- Eventos -->
+            <div>
+                <label class="block text-lg font-semibold text-gray-700 mb-2">
+                    Eventos
+                </label>
 
-    <button type="submit">
-        Cargar Datos
-    </button>
+                <input
+                    type="file"
+                    name="eventos"
+                    class="block w-full text-sm text-gray-600
+                    file:mr-4 file:py-3 file:px-6
+                    file:rounded-lg file:border-0
+                    file:bg-green-600 file:text-white
+                    hover:file:bg-green-700
+                    cursor-pointer"
+                >
+            </div>
 
-</form>
+            <!-- Invitados -->
+            <div>
+                <label class="block text-lg font-semibold text-gray-700 mb-2">
+                    Invitados
+                </label>
+
+                <input
+                    type="file"
+                    name="invitados"
+                    class="block w-full text-sm text-gray-600
+                    file:mr-4 file:py-3 file:px-6
+                    file:rounded-lg file:border-0
+                    file:bg-purple-600 file:text-white
+                    hover:file:bg-purple-700
+                    cursor-pointer"
+                >
+            </div>
+
+            <div class="pt-4">
+                <button
+                    type="submit"
+                    class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-indigo-700 transition duration-300"
+                >
+                    🚀 Cargar Datos
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 {% endblock %}
