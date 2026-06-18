@@ -239,6 +239,16 @@ class createEventos(CreateView):
     template_name = 'eventos/crearEvento.html'
     success_url = reverse_lazy('listaEventos')
 
+    def form_valid(self, form):
+        evento = form.save(commit=False)
+
+        usuario_id = self.request.session.get('usuario_id')
+
+        evento.creado_por_id = usuario_id
+
+        evento.save()
+
+        return super().form_valid(form)
 
 # =========================
 # ➕ CREAR TIPO EVENTO
