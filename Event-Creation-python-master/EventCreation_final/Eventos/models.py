@@ -49,6 +49,7 @@ class Invitados(models.Model):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     telefono = models.CharField(max_length=20)
+    id_usuario = models.ForeignKey('Usuarios', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         db_table = 'invitados'

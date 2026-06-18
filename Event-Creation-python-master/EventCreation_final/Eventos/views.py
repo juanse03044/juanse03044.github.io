@@ -152,9 +152,9 @@ class listaEventos(ListView):
             return Eventos.objects.select_related('id_tipo').all()
         else:
             # Usuario ve solo los eventos donde está como invitado
-            usuario_id = self.request.session.get('usuario_id')
+            usuario_id = self.request.session.get('id_usuario')
             eventos_ids = Invitados.objects.filter(
-                usuario_id=usuario_id
+                id_usuario=usuario_id
             ).values_list('evento_id', flat=True)
             return Eventos.objects.filter(
                 id_evento__in=eventos_ids
