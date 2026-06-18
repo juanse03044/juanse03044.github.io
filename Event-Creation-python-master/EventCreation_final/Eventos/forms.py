@@ -206,7 +206,13 @@ from django.core.exceptions import ValidationError
 class InvitadosForm(forms.ModelForm):
     class Meta:
         model = Invitados
-        fields = '__all__'
+        fields = ['evento', 'nombre', 'apellido', 'telefono']  # ya no 'usuario'
+        widgets = {
+            'evento': forms.Select(attrs={'class': '...'}),
+            'nombre': forms.TextInput(attrs={'class': '...'}),
+            'apellido': forms.TextInput(attrs={'class': '...'}),
+            'telefono': forms.TextInput(attrs={'class': '...'}),
+        }
 
     def _validar_nombre(self, valor, campo):
         valor = valor.strip()

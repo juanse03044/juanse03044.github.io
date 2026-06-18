@@ -275,6 +275,10 @@ class CreateInvitados(CreateView):
     template_name = 'invitados/crearInvitado.html'
     success_url = reverse_lazy('listaInvitados')
 
+    def form_valid(self, form):
+        usuario_id = self.request.session.get('usuario_id')
+        form.instance.usuario_id = usuario_id
+        return super().form_valid(form)
 
 # =========================
 # ➕ CREAR RECURSOS
