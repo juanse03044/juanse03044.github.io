@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["gunicorn", "tu_proyecto.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "EventCreation.wsgi:application", "--bind", "0.0.0.0:8000"]
