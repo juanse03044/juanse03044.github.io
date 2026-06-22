@@ -120,3 +120,48 @@ class Usuarios(models.Model):
         return self.nombre
 
    
+   
+   
+class Cotizacion(models.Model):
+    TIPO_LUGAR = [
+        ('casa', 'Casa particular'),
+        ('salon', 'Salón de eventos'),
+        ('casa_eventos', 'Casa de eventos'),
+        ('exterior', 'Exterior'),
+    ]
+    VESTIMENTA = [
+        ('formal', 'Formal'),
+        ('semiformal', 'Semiformal'),
+        ('casual', 'Casual'),
+        ('tematico', 'Temático'),
+    ]
+
+    evento = models.OneToOneField('Eventos', on_delete=models.CASCADE, related_name='cotizacion')
+    tipo_lugar = models.CharField(max_length=20, choices=TIPO_LUGAR)
+    hay_ninos = models.BooleanField(default=False)
+    hay_adultos_mayores = models.BooleanField(default=False)
+    vestimenta = models.CharField(max_length=20, choices=VESTIMENTA)
+    
+    # Servicios
+    incluye_dj = models.BooleanField(default=False)
+    incluye_camarero = models.BooleanField(default=False)
+    incluye_decoracion = models.BooleanField(default=False)
+    
+    # Comida y bebida
+    tipo_comida = models.CharField(max_length=100, blank=True)
+    tipo_bebida = models.CharField(max_length=100, blank=True)
+    
+    # Presupuesto
+    precio_base = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    precio_total = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
+    class Meta:
+        db_table = 'cotizaciones'
+
+    def calcular_precio(self):
+        total = self.precio_base
+        if self.incluye_dj: total += 500000
+        if self.incluye_camarero: total += 300000
+        if self.incluye_decoracion: total += 400000
+        self.precio_total = total
+        return total

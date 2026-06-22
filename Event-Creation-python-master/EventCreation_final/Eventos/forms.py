@@ -251,3 +251,19 @@ class RecursosForm(forms.ModelForm):
         if query.exists():
             raise ValidationError('Ya existe un recurso con este nombre.')
         return nombre
+    
+    
+from .models import Cotizacion
+
+class CotizacionForm(forms.ModelForm):
+    class Meta:
+        model = Cotizacion
+        exclude = ['precio_total']
+        widgets = {
+            'evento': forms.Select(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400'}),
+            'tipo_lugar': forms.Select(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400'}),
+            'vestimenta': forms.Select(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400'}),
+            'tipo_comida': forms.TextInput(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400', 'placeholder': 'Ej: Buffet, Bandeja paisa...'}),
+            'tipo_bebida': forms.TextInput(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400', 'placeholder': 'Ej: Licor, Gaseosas, Jugos...'}),
+            'precio_base': forms.NumberInput(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400'}),
+        }

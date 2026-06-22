@@ -712,3 +712,42 @@ def contacto(request):
         return redirect('/')
 
     return redirect('/')
+
+
+
+from .models import Cotizacion
+from .forms import CotizacionForm
+
+class CreateCotizacion(CreateView):
+    model = Cotizacion
+    form_class = CotizacionForm
+    template_name = 'cotizaciones/crearCotizacion.html'
+    success_url = reverse_lazy('listaCotizaciones')
+
+    def form_valid(self, form):
+        cotizacion = form.save(commit=False)
+        cotizacion.calcular_precio()
+        cotizacion.save()
+        return super().form_valid(form)
+
+class listaCotizaciones(ListView):
+    model = Cotizacion
+    template_name = 'cotizaciones/listaCotizaciones.html'
+    context_object_name = 'cotizaciones'
+
+class updateCotizacion(UpdateView):
+    model = Cotizacion
+    form_class = CotizacionForm
+    template_name = 'cotizaciones/crearCotizacion.html'
+    success_url = reverse_lazy('listaCotizaciones')
+
+    def form_valid(self, form):
+        cotizacion = form.save(commit=False)
+        cotizacion.calcular_precio()
+        cotizacion.save()
+        return super().form_valid(form)
+
+class deleteCotizacion(DeleteView):
+    model = Cotizacion
+    template_name = 'cotizaciones/eliminarCotizacion.html'
+    success_url = reverse_lazy('listaCotizaciones')

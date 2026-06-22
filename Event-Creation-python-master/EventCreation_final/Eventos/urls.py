@@ -63,4 +63,10 @@ urlpatterns = [
 
     # CARGA MASIVA 
     path('carga-masiva/', carga_masiva_general, name='carga_masiva_general'),
+    
+    
+    path('cotizaciones/', views.listaCotizaciones.as_view(), name='listaCotizaciones'),
+    path('cotizaciones/crear/', views.CreateCotizacion.as_view(), name='crearCotizacion'),
+    path('cotizaciones/editar/<int:pk>/', views.updateCotizacion.as_view(), name='editarCotizacion'),
+    path('cotizaciones/eliminar/<int:pk>/', views.deleteCotizacion.as_view(), name='eliminarCotizacion'),
 ]
