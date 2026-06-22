@@ -1,3 +1,4 @@
+
 from django.db import models
 
 
@@ -21,6 +22,9 @@ class Eventos(models.Model):
     lugar = models.CharField(max_length=100)
 
     cantidad_invitados = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.titulo
 
     id_tipo = models.ForeignKey(
         'TipoEvento',
