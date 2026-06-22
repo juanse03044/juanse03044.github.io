@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-black text-white py-10 px-4">
+    <div class="max-w-3xl mx-auto">
+
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-bold text-yellow-400">
+                <i class="fas fa-file-invoice-dollar mr-2"></i>
+                {% if object %}Editar Cotización{% else %}Nueva Cotización{% endif %}
+            </h1>
+            <a href="{% url 'listaCotizaciones' %}"
+                class="text-gray-400 hover:text-yellow-400 transition text-sm">
+                <i class="fas fa-arrow-left mr-1"></i> Volver
+            </a>
+        </div>
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Evento -->
+            <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                <h2 class="text-yellow-400 font-bold text-lg mb-4">
+                    <i class="fas fa-calendar-alt mr-2"></i>Evento
+                </h2>
+                <div>
+                    <label class="block text-gray-300 mb-2 text-sm">Evento</label>
+                    {{ form.evento }}
+                    {% if form.evento.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ form.evento.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Lugar y logística -->
+            <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                <h2 class="text-yellow-400 font-bold text-lg mb-4">
+                    <i class="fas fa-map-marker-alt mr-2"></i>Lugar y Logística
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-sm">Tipo de lugar</label>
+                        {{ form.tipo_lugar }}
+                        {% if form.tipo_lugar.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.tipo_lugar.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-sm">Vestimenta</label>
+                        {{ form.vestimenta }}
+                        {% if form.vestimenta.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.vestimenta.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asistentes -->
+            <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                <h2 class="text-yellow-400 font-bold text-lg mb-4">
+                    <i class="fas fa-users mr-2"></i>Asistentes especiales
+                </h2>
+                <div class="flex gap-8">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        {{ form.hay_ninos }}
+                        <span class="text-gray-300 text-sm">
+                            <i class="fas fa-child text-yellow-400 mr-1"></i> Habrá niños
+                        </span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        {{ form.hay_adultos_mayores }}
+                        <span class="text-gray-300 text-sm">
+                            <i class="fas fa-user-clock text-yellow-400 mr-1"></i> Habrá adultos mayores
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Comida y bebida -->
+            <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                <h2 class="text-yellow-400 font-bold text-lg mb-4">
+                    <i class="fas fa-utensils mr-2"></i>Comida y Bebida
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-sm">Tipo de comida</label>
+                        {{ form.tipo_comida }}
+                        {% if form.tipo_comida.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.tipo_comida.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-sm">Tipo de bebida</label>
+                        {{ form.tipo_bebida }}
+                        {% if form.tipo_bebida.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.tipo_bebida.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Servicios adicionales -->
+            <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                <h2 class="text-yellow-400 font-bold text-lg mb-4">
+                    <i class="fas fa-concierge-bell mr-2"></i>Servicios Adicionales
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <label class="flex items-center gap-3 bg-black border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-yellow-400 transition">
+                        {{ form.incluye_dj }}
+                        <div>
+                            <p class="text-white font-semibold text-sm">
+                                <i class="fas fa-music text-yellow-400 mr-1"></i> DJ
+                            </p>
+                            <p class="text-gray-500 text-xs">+$500,000</p>
+                        </div>
+                    </label>
+                    <label class="flex items-center gap-3 bg-black border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-yellow-400 transition">
+                        {{ form.incluye_camarero }}
+                        <div>
+                            <p class="text-white font-semibold text-sm">
+                                <i class="fas fa-user-tie text-yellow-400 mr-1"></i> Camarero
+                            </p>
+                            <p class="text-gray-500 text-xs">+$300,000</p>
+                        </div>
+                    </label>
+                    <label class="flex items-center gap-3 bg-black border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-yellow-400 transition">
+                        {{ form.incluye_decoracion }}
+                        <div>
+                            <p class="text-white font-semibold text-sm">
+                                <i class="fas fa-star text-yellow-400 mr-1"></i> Decoración
+                            </p>
+                            <p class="text-gray-500 text-xs">+$400,000</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Presupuesto -->
+            <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
+                <h2 class="text-yellow-400 font-bold text-lg mb-4">
+                    <i class="fas fa-dollar-sign mr-2"></i>Presupuesto
+                </h2>
+                <div>
+                    <label class="block text-gray-300 mb-2 text-sm">Precio base ($)</label>
+                    {{ form.precio_base }}
+                    {% if form.precio_base.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ form.precio_base.errors.0 }}</p>
+                    {% endif %}
+                    <p class="text-gray-500 text-xs mt-1">El precio total se calculará automáticamente sumando los servicios.</p>
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-4 rounded-lg transition transform hover:scale-[1.02]">
+                <i class="fas fa-save mr-2"></i>
+                {% if object %}Guardar Cambios{% else %}Crear Cotización{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

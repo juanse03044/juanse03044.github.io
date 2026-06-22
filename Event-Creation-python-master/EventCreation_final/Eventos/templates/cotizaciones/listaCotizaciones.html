@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-black text-white py-10 px-4">
+    <div class="max-w-7xl mx-auto">
+
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-bold text-yellow-400">
+                <i class="fas fa-file-invoice-dollar mr-2"></i> Cotizaciones
+            </h1>
+            <a href="{% url 'crearCotizacion' %}"
+                class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-5 rounded-full transition">
+                <i class="fas fa-plus mr-2"></i> Nueva Cotización
+            </a>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 px-4 py-3 rounded-md
+                    {% if message.tags == 'success' %}bg-green-800 text-green-200
+                    {% elif message.tags == 'error' %}bg-red-800 text-red-200
+                    {% else %}bg-yellow-800 text-yellow-200{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if cotizaciones %}
+        <div class="overflow-x-auto rounded-lg border border-gray-800">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-gray-900 text-yellow-400 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3">Evento</th>
+                        <th class="px-4 py-3">Lugar</th>
+                        <th class="px-4 py-3">Vestimenta</th>
+                        <th class="px-4 py-3">Servicios</th>
+                        <th class="px-4 py-3">Asistentes</th>
+                        <th class="px-4 py-3">Precio Base</th>
+                        <th class="px-4 py-3">Precio Total</th>
+                        <th class="px-4 py-3 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800">
+                    {% for c in cotizaciones %}
+                    <tr class="bg-black hover:bg-gray-900 transition">
+                        <td class="px-4 py-3 font-semibold text-white">{{ c.evento.titulo }}</td>
+                        <td class="px-4 py-3 text-gray-300">{{ c.get_tipo_lugar_display }}</td>
+                        <td class="px-4 py-3 text-gray-300">{{ c.get_vestimenta_display }}</td>
+                        <td class="px-4 py-3 text-gray-300">
+                            {% if c.incluye_dj %}<span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full mr-1">DJ</span>{% endif %}
+                            {% if c.incluye_camarero %}<span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full mr-1">Camarero</span>{% endif %}
+                            {% if c.incluye_decoracion %}<span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full">Decoración</span>{% endif %}
+                            {% if not c.incluye_dj and not c.incluye_camarero and not c.incluye_decoracion %}
+                                <span class="text-gray-500">Ninguno</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-gray-300">
+                            {% if c.hay_ninos %}<i class="fas fa-child text-yellow-400 mr-1" title="Niños"></i>{% endif %}
+                            {% if c.hay_adultos_mayores %}<i class="fas fa-user-clock text-yellow-400" title="Adultos mayores"></i>{% endif %}
+                            {% if not c.hay_ninos and not c.hay_adultos_mayores %}<span class="text-gray-500">—</span>{% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-gray-300">${{ c.precio_base|floatformat:0 }}</td>
+                        <td class="px-4 py-3 font-bold text-yellow-400">${{ c.precio_total|floatformat:0 }}</td>
+                        <td class="px-4 py-3 text-center space-x-2">
+                            <a href="{% url 'editarCotizacion' c.pk %}"
+                                class="bg-yellow-500 hover:bg-yellow-600 text-black text-xs font-bold py-1 px-3 rounded-full transition">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'eliminarCotizacion' c.pk %}"
+                                class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-1 px-3 rounded-full transition">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-20 text-gray-500">
+            <i class="fas fa-file-invoice-dollar text-6xl mb-4 text-gray-700"></i>
+            <p class="text-xl">No hay cotizaciones registradas.</p>
+            <a href="{% url 'crearCotizacion' %}"
+                class="mt-6 inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-full transition">
+                Crear la primera
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
