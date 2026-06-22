@@ -1,3 +1,6 @@
+
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -286,7 +289,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="bg-black p-6 rounded-lg card-hover border border-gray-800">
-                    <img src="img/Basico.png" alt="Paquete Básico" class="w-full h-48 object-cover rounded-md mb-4" />
+                    <img src="{% static 'imge/Basico.png' %}" alt="Paquete Básico" class="w-full h-48 object-cover rounded-md mb-4" />
                     <h3 class="text-xl font-bold mb-2 text-yellow-400">BÁSICO</h3>
                     <p class="text-gray-300 mb-4">Una opción posible y económica para quienes desean celebrar en un
                         ambiente alegre y sencillo. Ideal para reuniones familiares o celebraciones íntimas sin perder
@@ -302,7 +305,7 @@
                     </ul>
                 </div>
                 <div class="bg-black p-6 rounded-lg card-hover border border-gray-800">
-                    <img src="img/Medum.png" alt="Paquete Estándar" class="w-full h-48 object-cover rounded-md mb-4" />
+                    <img src="{% static 'imge/Medum.png' %}" alt="Paquete Estándar" class="w-full h-48 object-cover rounded-md mb-4" />
                     <h3 class="text-xl font-bold mb-2 text-yellow-400">ESTÁNDAR</h3>
                     <p class="text-gray-300 mb-4">Perfecto para quienes quieren una celebración más completa y
                         personalizada. Con detalles que marcan la diferencia, este paquete combina elegancia y
@@ -321,7 +324,7 @@
                     </ul>
                 </div>
                 <div class="bg-black p-6 rounded-lg card-hover border border-gray-800">
-                    <img src="img/Premiunn.png" alt="Paquete Premium"
+                    <img src="{% static 'imge/Premiunn.png' %}" alt="Paquete Premium"
                         class="w-full h-48 object-cover rounded-md mb-4" />
                     <h3 class="text-xl font-bold mb-2 text-yellow-400">PREMIUM</h3>
                     <p class="text-gray-300 mb-4">La experiencia definitiva en organización de celebraciones. Pensado
@@ -357,40 +360,35 @@
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="celebrity-card relative overflow-hidden rounded-lg h-64">
-                    <img src="img/Exteriores.jpeg" class="w-full h-full object-cover" />
+                    <img src="{% static 'imge/Exteriores.jpeg' %}" class="w-full h-full object-cover" />
                     <div
                         class="celebrity-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
                         <h3 class="text-xl font-bold text-yellow-400">EXTERIORES</h3>
                     </div>
                 </div>
                 <div class="celebrity-card relative overflow-hidden rounded-lg h-64">
-                    <img src="img/Grados.jpeg" class="w-full h-full object-cover" />
+                    <img src="{% static 'imge/Grados.jpeg' %}" class="w-full h-full object-cover" />
                     <div
                         class="celebrity-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
                         <h3 class="text-xl font-bold text-yellow-400">GRADOS</h3>
                     </div>
                 </div>
                 <div class="celebrity-card relative overflow-hidden rounded-lg h-64">
-                    <img src="img/Quinces.jpeg" class="w-full h-full object-cover" />
+                    <img src="{% static 'imge/Quinces.jpeg' %}" class="w-full h-full object-cover" />
                     <div
                         class="celebrity-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
                         <h3 class="text-xl font-bold text-yellow-400">QUINCES</h3>
                     </div>
                 </div>
                 <div class="celebrity-card relative overflow-hidden rounded-lg h-64">
-                    <img src="img/Revelaciones.jpeg" class="w-full h-full object-cover" />
+                    <img src="{% static 'imge/Revelaciones.jpeg' %}" class="w-full h-full object-cover" />
                     <div
                         class="celebrity-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
                         <h3 class="text-xl font-bold text-yellow-400">REVELACIONES</h3>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-12">
-                <a href="pagina%20error/error2.html"
-                    class="inline-flex items-center px-6 py-3 border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-bold rounded-full transition duration-300">
-                    Ver más eventos <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
+            
         </div>
     </section>
 
@@ -402,25 +400,20 @@
                 <p class="text-lg md:text-xl max-w-3xl mx-auto">A continuación:</p>
             </div>
             <div class="bg-black p-6 rounded-lg card-hover border border-gray-800 mb-8 flex flex-col items-center">
-                <img src="img/mision.png" alt="Misión" class="w-auto h-24 object-contain rounded-md mb-4" />
+                <img src="{% static 'imge/mision.png' %}" alt="Misión" class="w-auto h-24 object-contain rounded-md mb-4" />
                 <h3 class="text-xl font-bold mb-2 text-yellow-400 text-center">MISIÓN</h3>
                 <p class="text-gray-300 text-center">Brindar un servicio profesional y personalizado en la creación y
                     organización de eventos, facilitando el proceso a través de una plataforma web que permite agendar
                     citas de forma rápida, eficiente y segura.</p>
             </div>
             <div class="bg-black p-6 rounded-lg card-hover border border-gray-800 flex flex-col items-center">
-                <img src="img/vision.png" alt="Visión" class="w-auto h-24 object-contain rounded-md mb-4" />
+                <img src="{% static 'imge/vision.png' %}" alt="Visión" class="w-auto h-24 object-contain rounded-md mb-4" />
                 <h3 class="text-xl font-bold mb-2 text-yellow-400 text-center">VISIÓN</h3>
                 <p class="text-gray-300 text-center">Ser una empresa líder en el sector de organización de eventos,
                     reconocida por su innovación, atención al cliente y uso de herramientas digitales que simplifican la
                     planificación y garantizan experiencias memorables.</p>
             </div>
-            <div class="text-center mt-12">
-                <a href="pagina%20error/error1.html"
-                    class="inline-flex items-center px-6 py-3 border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-bold rounded-full transition duration-300">
-                    Ver más <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
+            
         </div>
     </section>
 
