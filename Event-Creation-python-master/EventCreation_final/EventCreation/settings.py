@@ -27,11 +27,11 @@ SECRET_KEY = 'django-insecure-&fio+t&+20-v^ko*!ta7lwg==*nrdq7lu&5m7-r$8+0n%m@4tm
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "juanse03044-github-io-2.onrender.com",
-    "localhost",
-    "127.0.0.1",
+    '127.0.0.1',
+    'localhost',
+    'juanse03044-github-io.onrender.com',
+    'juanse03044-github-io-2.onrender.com',
 ]
-
 CSRF_TRUSTED_ORIGINS = [
     "https://juanse03044-github-io-2.onrender.com",
 ]
