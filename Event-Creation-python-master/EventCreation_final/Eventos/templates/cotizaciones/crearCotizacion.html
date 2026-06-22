@@ -19,7 +19,6 @@
         <form method="post" class="space-y-6">
             {% csrf_token %}
 
-            <!-- Evento -->
             <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
                 <h2 class="text-yellow-400 font-bold text-lg mb-4">
                     <i class="fas fa-calendar-alt mr-2"></i>Evento
@@ -33,7 +32,6 @@
                 </div>
             </div>
 
-            <!-- Lugar y logística -->
             <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
                 <h2 class="text-yellow-400 font-bold text-lg mb-4">
                     <i class="fas fa-map-marker-alt mr-2"></i>Lugar y Logística
@@ -47,7 +45,7 @@
                         {% endif %}
                     </div>
                     <div>
-                        <label class="block text-gray-300 mb-2 text-sm">Vestimenta</label>
+                        <label class="block text-gray-300 mb-2 text-sm">Vestimenta Requerida</label>
                         {{ form.vestimenta }}
                         {% if form.vestimenta.errors %}
                             <p class="text-red-400 text-xs mt-1">{{ form.vestimenta.errors.0 }}</p>
@@ -56,42 +54,46 @@
                 </div>
             </div>
 
-            <!-- Asistentes -->
             <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
                 <h2 class="text-yellow-400 font-bold text-lg mb-4">
                     <i class="fas fa-users mr-2"></i>Asistentes especiales
                 </h2>
-                <div class="flex gap-8">
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        {{ form.hay_ninos }}
-                        <span class="text-gray-300 text-sm">
-                            <i class="fas fa-child text-yellow-400 mr-1"></i> Habrá niños
-                        </span>
-                    </label>
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        {{ form.hay_adultos_mayores }}
-                        <span class="text-gray-300 text-sm">
-                            <i class="fas fa-user-clock text-yellow-400 mr-1"></i> Habrá adultos mayores
-                        </span>
-                    </label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-sm">
+                            <i class="fas fa-child text-yellow-400 mr-1"></i> Cantidad de Niños
+                        </label>
+                        {{ form.cantidad_ninos }}
+                        {% if form.cantidad_ninos.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.cantidad_ninos.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-sm">
+                            <i class="fas fa-user-clock text-yellow-400 mr-1"></i> Cantidad de Adultos Mayores
+                        </label>
+                        {{ form.cantidad_adultos_mayores }}
+                        {% if form.cantidad_adultos_mayores.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.cantidad_adultos_mayores.errors.0 }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 
-            <!-- Comida y bebida -->
             <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
                 <h2 class="text-yellow-400 font-bold text-lg mb-4">
                     <i class="fas fa-utensils mr-2"></i>Comida y Bebida
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-gray-300 mb-2 text-sm">Tipo de comida</label>
+                        <label class="block text-gray-300 mb-2 text-sm">Menú Seleccionado</label>
                         {{ form.tipo_comida }}
                         {% if form.tipo_comida.errors %}
                             <p class="text-red-400 text-xs mt-1">{{ form.tipo_comida.errors.0 }}</p>
                         {% endif %}
                     </div>
                     <div>
-                        <label class="block text-gray-300 mb-2 text-sm">Tipo de bebida</label>
+                        <label class="block text-gray-300 mb-2 text-sm">Bebida Seleccionada</label>
                         {{ form.tipo_bebida }}
                         {% if form.tipo_bebida.errors %}
                             <p class="text-red-400 text-xs mt-1">{{ form.tipo_bebida.errors.0 }}</p>
@@ -100,12 +102,11 @@
                 </div>
             </div>
 
-            <!-- Servicios adicionales -->
             <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
                 <h2 class="text-yellow-400 font-bold text-lg mb-4">
                     <i class="fas fa-concierge-bell mr-2"></i>Servicios Adicionales
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <label class="flex items-center gap-3 bg-black border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-yellow-400 transition">
                         {{ form.incluye_dj }}
                         <div>
@@ -134,9 +135,21 @@
                         </div>
                     </label>
                 </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-gray-800">
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-sm">Género de Música (DJ)</label>
+                        {{ form.tipo_musica }}
+                        <p class="text-gray-500 text-xs mt-1">Solo aplica si el servicio de DJ está activo.</p>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-sm">Estilo de Decoración</label>
+                        {{ form.tipo_decoracion }}
+                        <p class="text-gray-500 text-xs mt-1">Solo aplica si el servicio de Decoración está activo.</p>
+                    </div>
+                </div>
             </div>
 
-            <!-- Presupuesto -->
             <div class="bg-gray-900 rounded-lg p-6 border border-gray-800">
                 <h2 class="text-yellow-400 font-bold text-lg mb-4">
                     <i class="fas fa-dollar-sign mr-2"></i>Presupuesto

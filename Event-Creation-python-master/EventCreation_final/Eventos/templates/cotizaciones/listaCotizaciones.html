@@ -35,7 +35,7 @@
                         <th class="px-4 py-3">Lugar</th>
                         <th class="px-4 py-3">Vestimenta</th>
                         <th class="px-4 py-3">Servicios</th>
-                        <th class="px-4 py-3">Asistentes</th>
+                        <th class="px-4 py-3">Asistentes Esp.</th>
                         <th class="px-4 py-3">Precio Base</th>
                         <th class="px-4 py-3">Precio Total</th>
                         <th class="px-4 py-3 text-center">Acciones</th>
@@ -46,19 +46,39 @@
                     <tr class="bg-black hover:bg-gray-900 transition">
                         <td class="px-4 py-3 font-semibold text-white">{{ c.evento.titulo }}</td>
                         <td class="px-4 py-3 text-gray-300">{{ c.get_tipo_lugar_display }}</td>
-                        <td class="px-4 py-3 text-gray-300">{{ c.get_vestimenta_display }}</td>
                         <td class="px-4 py-3 text-gray-300">
-                            {% if c.incluye_dj %}<span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full mr-1">DJ</span>{% endif %}
-                            {% if c.incluye_camarero %}<span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full mr-1">Camarero</span>{% endif %}
-                            {% if c.incluye_decoracion %}<span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full">Decoración</span>{% endif %}
+                            <span class="border border-gray-700 px-2 py-0.5 rounded text-xs">
+                                {{ c.get_vestimenta_display }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-gray-300">
+                            {% if c.incluye_dj %}
+                                <span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full mr-1" title="Música: {{ c.get_tipo_musica_display }}">DJ</span>
+                            {% endif %}
+                            {% if c.incluye_camarero %}
+                                <span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full mr-1">Camarero</span>
+                            {% endif %}
+                            {% if c.incluye_decoracion %}
+                                <span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full" title="Estilo: {{ c.get_tipo_decoracion_display }}">Decoración</span>
+                            {% endif %}
                             {% if not c.incluye_dj and not c.incluye_camarero and not c.incluye_decoracion %}
                                 <span class="text-gray-500">Ninguno</span>
                             {% endif %}
                         </td>
-                        <td class="px-4 py-3 text-gray-300">
-                            {% if c.hay_ninos %}<i class="fas fa-child text-yellow-400 mr-1" title="Niños"></i>{% endif %}
-                            {% if c.hay_adultos_mayores %}<i class="fas fa-user-clock text-yellow-400" title="Adultos mayores"></i>{% endif %}
-                            {% if not c.hay_ninos and not c.hay_adultos_mayores %}<span class="text-gray-500">—</span>{% endif %}
+                        <td class="px-4 py-3 text-gray-300 space-y-1">
+                            {% if c.cantidad_ninos > 0 %}
+                                <div class="text-xs flex items-center gap-1">
+                                    <i class="fas fa-child text-yellow-400 w-4"></i> Niños: <strong>{{ c.cantidad_ninos }}</strong>
+                                </div>
+                            {% endif %}
+                            {% if c.cantidad_adultos_mayores > 0 %}
+                                <div class="text-xs flex items-center gap-1">
+                                    <i class="fas fa-user-clock text-yellow-400 w-4"></i> Adultos: <strong>{{ c.cantidad_adultos_mayores }}</strong>
+                                </div>
+                            {% endif %}
+                            {% if c.cantidad_ninos == 0 and c.cantidad_adultos_mayores == 0 %}
+                                <span class="text-gray-500">—</span>
+                            {% endif %}
                         </td>
                         <td class="px-4 py-3 text-gray-300">${{ c.precio_base|floatformat:0 }}</td>
                         <td class="px-4 py-3 font-bold text-yellow-400">${{ c.precio_total|floatformat:0 }}</td>

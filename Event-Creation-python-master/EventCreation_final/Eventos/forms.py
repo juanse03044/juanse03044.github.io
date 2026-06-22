@@ -253,17 +253,29 @@ class RecursosForm(forms.ModelForm):
         return nombre
     
     
+
+from django import BleachField, forms
 from .models import Cotizacion
 
 class CotizacionForm(forms.ModelForm):
+    # Definimos los listados de opciones (Choices)
+    COMIDA_CHOICES = [('', 'Seleccione menú...'), ('buffet', 'Buffet Ejecutivo'), ('gourmet', 'Cena Gourmet de 3 Tiempos'), ('coctel', 'Pasabocas / Cóctel')]
+    BEBIDA_CHOICES = [('', 'Seleccione bebidas...'), ('barra_libre', 'Barra Libre Nacional'), ('sin_alcohol', 'Cócteles sin Alcohol'), ('premium', 'Vinos y Licores Premium')]
+    MUSICA_CHOICES = [('', 'Ninguno / Por definir'), ('crossover', 'Crossover / Variado'), ('electronica', 'Electrónica / House'), ('salsa_merengue', 'Salsa y Merengue'), ('rock_pop', 'Rock & Pop Retro')]
+    DECORACION_CHOICES = [('', 'Ninguno / Por definir'), ('vintage', 'Estilo Vintage / Rústico'), ('moderno', 'Moderno / Minimalista'), ('tematico', 'Temático personalizado')]
+    VESTIMENTA_CHOICES = [('formal', 'Formal / Etiqueta'), ('coctel', 'Cóctel'), ('casual', 'Casual Elegante'), ('tematica', 'Temática')]
+
+    # Sobrescribimos o añadimos los campos en el Form
+    tipo_comida = forms.ChoiceField(choices=COMIDA_CHOICES, widget=forms.Select(attrs={'class': 'w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-yellow-400 text-sm'}))
+    tipo_bebida = forms.ChoiceField(choices=BEBIDA_CHOICES, widget=forms.Select(attrs={'class': 'w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-yellow-400 text-sm'}))
+    tipo_musica = forms.ChoiceField(choices=MUSICA_CHOICES, required=False, widget=forms.Select(attrs={'class': 'w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-yellow-400 text-sm'}))
+    tipo_decoracion = forms.ChoiceField(choices=DECORACION_CHOICES, required=False, widget=forms.Select(attrs={'class': 'w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-yellow-400 text-sm'}))
+    vestimenta = forms.ChoiceField(choices=VESTIMENTA_CHOICES, widget=forms.Select(attrs={'class': 'w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-yellow-400 text-sm'}))
+    
+    # Campos numéricos para cantidades de asistentes especiales
+    cantidad_ninos = forms.IntegerField(min_value=0, initial=0, widget=forms.NumberInput(attrs={'class': 'w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-yellow-400 text-sm'}))
+    cantidad_adultos_mayores = forms.IntegerField(min_value=0, initial=0, widget=forms.NumberInput(attrs={'class': 'w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:border-yellow-400 text-sm'}))
+
     class Meta:
         model = Cotizacion
-        exclude = ['precio_total']
-        widgets = {
-            'evento': forms.Select(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400'}),
-            'tipo_lugar': forms.Select(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400'}),
-            'vestimenta': forms.Select(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400'}),
-            'tipo_comida': forms.TextInput(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400', 'placeholder': 'Ej: Buffet, Bandeja paisa...'}),
-            'tipo_bebida': forms.TextInput(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400', 'placeholder': 'Ej: Licor, Gaseosas, Jugos...'}),
-            'precio_base': forms.NumberInput(attrs={'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400'}),
-        }
+        fields = '__all__' # O especifica tus campos uno a uno
