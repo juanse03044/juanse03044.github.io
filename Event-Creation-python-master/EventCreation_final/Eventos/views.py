@@ -669,3 +669,46 @@ def carga_masiva_general(request):
         return redirect('listaEventos')
 
     return render(request, 'eventos/carga_masiva_general.html')
+
+
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def contacto(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        empresa = request.POST.get('empresa')
+        email = request.POST.get('email')
+        telefono = request.POST.get('telefono')
+        tipo_evento = request.POST.get('tipo_evento')
+        mensaje = request.POST.get('mensaje')
+
+        cuerpo = f"""
+        Nuevo contacto recibido
+
+        Nombre: {nombre}
+        Empresa: {empresa}
+        Email: {email}
+        Teléfono: {telefono}
+        Tipo de evento: {tipo_evento}
+
+        Mensaje:
+        {mensaje}
+        """
+
+        try:
+            send_mail(
+                subject=f'Nuevo cliente interesado: {nombre}',
+                message=cuerpo,
+                from_email='juansebastiantorres0304@gmail.com',
+                recipient_list=['juansebastiantorres0304@gmail.com'],
+                fail_silently=False,
+            )
+            messages.success(request, 'Mensaje enviado correctamente.')
+        except Exception as e:
+            messages.error(request, f'Error al enviar el mensaje: {str(e)}')
+
+        return redirect('/')
+
+    return redirect('/')

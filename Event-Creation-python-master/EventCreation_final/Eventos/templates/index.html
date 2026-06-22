@@ -114,9 +114,7 @@
                 <a href="#services" class="text-gray-300 hover:text-yellow-400 transition-all duration-300">Servicios</a>
                 <a href="#contact" class="text-gray-300 hover:text-yellow-400 transition-all duration-300">Contacto</a>
                 {% if request.session.usuario_id %}
-                <a href="{% url 'perfil' %}" class="text-gray-300 hover:text-yellow-400 transition-all duration-300">
-                    <i class="fas fa-user mr-1"></i>{{ request.session.usuario_nombre }}
-                </a>
+                
                 <a href="{% url 'logout' %}"
                     class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105">
                     Cerrar Sesión
